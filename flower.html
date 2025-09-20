@@ -9,7 +9,8 @@
     <title>Flower</title>
   </head>
   <body class="container">
-    <audio src="sound/ChristianBasso&HaienQiu-Flowers.mp3" autoplay></audio>
+    <audio id="bg-music" src="sound/ChristianBasso&HaienQiu-Flowers.mp3" autoplay loop></audio>
+
     <div id="lyrics">
      
     </div>
@@ -384,6 +385,32 @@
     }
   }
 })();
+</script>
+<!-- Botón de música flotante -->
+<button id="music-btn" class="music-toggle" style="display:none;">🔊</button>
+
+<script>
+  const music = document.getElementById("bg-music");
+  const btn = document.getElementById("music-btn");
+
+  // Detectar si es móvil
+  const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+
+  if (isMobile) {
+    // En móviles: mostrar botón y mutear al inicio
+    btn.style.display = "block";
+    music.muted = true;
+    
+    btn.addEventListener("click", () => {
+      music.muted = !music.muted;
+      btn.textContent = music.muted ? "🔇" : "🔊";
+      if (!music.muted) music.play().catch(err => console.log("Autoplay bloqueado:", err));
+    });
+  } else {
+    // En desktop: reproducir normal
+    music.muted = false;
+    music.play().catch(err => console.log("Autoplay bloqueado en PC:", err));
+  }
 </script>
 
   </body>
