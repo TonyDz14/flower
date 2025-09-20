@@ -13,10 +13,13 @@
     <div id="lyrics">
      
     </div>
-    <h1 class="titulo">Las flores amarillas son símbolo de optimismo, prosperidad y nuevos comienzos.
-En esta temporada, queremos transmitir ese mismo espíritu a cada uno de ustedes: que la primavera sea un recordatorio de crecimiento, alegría y energía renovada para seguir avanzando juntos. <br> <br>
-Gracias por ser parte de nuestro camino y por florecer con nosotros en cada etapa.
-Bioselva Essentials.</h1>
+   <h1 class="titulo">
+  Las flores amarillas son símbolo de optimismo, prosperidad y nuevos comienzos.
+  En esta temporada, queremos transmitir ese mismo espíritu a cada uno de ustedes: que la primavera sea un recordatorio de crecimiento, alegría y energía renovada para seguir avanzando juntos. <br><br>
+  Gracias por ser parte de nuestro camino y por florecer con nosotros en cada etapa. 
+  <span class="brand-highlight">Bioselva Essentials.</span>
+</h1>
+
   
     <div class="night"></div>
     <div class="flowers">
@@ -330,5 +333,58 @@ Bioselva Essentials.</h1>
     </div>
     <script src="anim.js"></script>
     <script src="main.js"></script>
+   <script>
+(function () {
+  const title = document.querySelector('.titulo');
+  if (!title) return;
+
+  // === Ritmo de lectura: MÁS LENTO ===
+  const STEP_MS = 400;     // ⬅️ retraso entre palabras (0.4s). Súbelo si lo quieres aún más lento.
+  const DURATION_WORD = 1500; // ms. Duración de la animación por palabra (coincide con CSS: 1.5s)
+
+  // Guardar el nodo brand para reinsertarlo luego con delay exacto
+  const brand = title.querySelector('.brand-highlight');
+  const brandHTML = brand ? brand.outerHTML : '';
+  if (brand) brand.remove(); // lo retiramos temporalmente para no dividirlo
+
+  // Texto original (sin la marca), respetando <br>
+  const html = title.innerHTML
+    .replace(/\n/g, ' ')
+    .replace(/\s{2,}/g, ' ')
+    .trim();
+
+  const chunks = html.split(/(<br\s*\/?>)/i);
+
+  let wordIndex = 0;
+  const out = chunks.map(chunk => {
+    if (/^<br\s*\/?>$/i.test(chunk)) {
+      return '<br>';
+    }
+    // dividir texto en palabras + espacios
+    return chunk.split(/(\s+)/).map(token => {
+      if (/^\s+$/.test(token)) return `<span class="space">${token}</span>`;
+      if (token === '') return '';
+      const delay = wordIndex * STEP_MS; // delay escalonado
+      wordIndex++;
+      return `<span class="word" style="animation-delay:${delay}ms">${token}</span>`;
+    }).join('');
+  }).join('');
+
+  // Inyectamos el texto animado
+  title.innerHTML = out + (brandHTML ? ' ' + brandHTML : '');
+
+  // Si existe la marca, calcular su delay exacto:
+  if (brandHTML) {
+    const brandNode = title.querySelector('.brand-highlight');
+    if (brandNode) {
+      // delay total = (número de palabras * STEP) + un pequeño margen
+      const totalDelay = Math.max(0, (wordIndex - 1) * STEP_MS + DURATION_WORD * 0.2);
+      brandNode.style.animationDelay = `${totalDelay}ms`;
+      brandNode.style.opacity = 0; // garantizar inicio oculto
+    }
+  }
+})();
+</script>
+
   </body>
 </html>

@@ -1,32 +1,64 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="icon" href="img/flowers.png" type="image/x-icon">
-    <title>Flowers</title>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <!-- 🔹 SEO básico -->
+  <title>Bioselva • Primavera</title>
+  <meta name="description" content="Bioselva Essentials - Un detalle para celebrar la primavera. Optimismo, crecimiento y energía renovada para seguir avanzando juntos." />
+
+  <!-- 🔹 Open Graph (Facebook, WhatsApp, LinkedIn) -->
+  <meta property="og:title" content="Bioselva Essentials • Primavera" />
+  <meta property="og:description" content="Un detalle para celebrar la primavera: optimismo, crecimiento y energía renovada." />
+  <meta property="og:url" content="https://bioselvaflower.vercel.app/" />
+  <meta property="og:image" content="https://bioselvaflower.vercel.app/img/bioselva.png" />
+  <meta property="og:type" content="website" />
+
+  <!-- 🔹 Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="BioSelva Essentials • Primavera" />
+  <meta name="twitter:description" content="Un detalle para celebrar la primavera: optimismo, crecimiento y energía renovada." />
+  <meta name="twitter:image" content="https://bioselvaflower.vercel.app/img/bioselva.png" />
+
+  <!-- Favicon -->
+  <link rel="icon" href="img/flowers.png" type="image/x-icon" />
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="css/style.css" />
 </head>
 
 <body>
-    <div class="greetings">
-        <span>H</span>
-        <span>o</span>
-        <span>l</span>
-        <span>a</span>
-        <span>!</span>
-    </div>
-    <div class="description">
-        <span>ESTE DETALLE ES PARA TI :)</span>
-    </div>
-    <div class="button">
-        <button class="botones">
-            <a href="flower.html" style="color: #fff;">CLICK AQUÍ</a>
-        </button>
-    </div>
+  <main class="hero">
+    <header class="brand">
+  <img src="img/bioselva.png" alt="Logo Bioselva Essentials" class="brand-logo">
+  <h1 class="brand-name">Bioselva Essentials</h1>
+</header>
 
+
+    <section class="content">
+      <p class="kicker">Mensaje de temporada</p>
+      <h2 class="title">
+        Un detalle para celebrar la primavera
+      </h2>
+      <p class="subtitle">
+        Optimismo, crecimiento y energía renovada para seguir avanzando juntos.
+      </p>
+
+      <a class="cta" href="flower.html" aria-label="Abrir mensaje de primavera">
+        Ver mensaje
+      </a>
+    </section>
+
+    <footer class="footer">
+      <small>© <span id="year"></span> Bioselva Essentials — Hecho con cariño y respeto por la naturaleza</small>
+    </footer>
+  </main>
+
+  <script>
+    // Año dinámico y respeto a usuarios con motion reducido
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
 </body>
-
 </html>

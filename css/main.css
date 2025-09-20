@@ -9,6 +9,14 @@
 :root {
   --dark-color: #000;
 }
+/* ===== Eliminar scroll en toda la página ===== */
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;   /* 🔑 oculta scroll vertical y horizontal */
+}
 
 body {
   display: flex;
@@ -20,43 +28,118 @@ body {
   perspective: 1000px;
 }
 
+/* ===== LETRA DE LA CANCIÓN (CENTRADO Y CON ANCHO MÁXIMO) ===== */
 #lyrics {
-  font-size: 28px;
-  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
-  color: white;
   position: absolute;
-  margin-bottom: 20%;
-  z-index: 1;
-  font-weight: bold;
-  letter-spacing: 4px;
-}
-@media only screen and (max-width: 600px) {
-  /* Estilos específicos para dispositivos con un ancho máximo de 600px */
-  #lyrics {
-      font-size: 14px; /* Reduce el tamaño del texto para dispositivos más pequeños */
-      margin-bottom: 530px;
-      letter-spacing: 3px;
-  }
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 18vh;
+  width: min(92vw, 900px);
+  padding: 0 2vw;
 
-}
-.titulo {
-  top: 20px; /* 👈 controla la distancia desde arriba */
-  width: 100%; /* ocupa todo el ancho */
-  
-  font-family: "Arial Narrow", Arial, sans-serif;
-  color: yellow;
-  position: absolute;
+  font-family: "Franklin Gothic Medium","Arial Narrow",Arial,sans-serif;
+  color: #fff;
   font-weight: bold;
-  letter-spacing: 10px;
+  text-align: center;
+  line-height: 1.25;
+
+  font-size: clamp(14px, 3.6vw, 28px);
+  letter-spacing: clamp(0.5px, 0.6vw, 4px);
+
+  /* 🔑 lo importante */
+  z-index: 9999;          /* lo trae al frente de todo */
+  pointer-events: none;   /* evita que bloquee clics en botones o links debajo */
+  text-shadow: 0 2px 6px rgba(0,0,0,.6); /* mejora legibilidad */
+}
+
+
+/* Ajustes finos en pantallas muy pequeñas */
+@media (max-width: 380px) {
+  #lyrics { bottom: 22vh; }
+}
+
+/* Si algo sigue cortándose por overflow, permite scroll vertical en móvil */
+@media (max-width: 600px) {
+  body { overflow-y: auto; }
+}
+
+/* ===== TÍTULO RESPONSIVE + LEGIBILIDAD ===== */
+.titulo {
+  position: absolute;
+  top: 16px;
+  left: 0; right: 0;
+  width: 100%;
+  padding: 0 4vw;             /* respiración lateral en móviles */
+  text-align: center;
+
+  font-family: "Arial Narrow", Arial, sans-serif;
+  color: #ffe600;             /* amarillo legible */
+  font-weight: 700;
+
+  font-size: clamp(14px, 4vw, 36px);
+  letter-spacing: clamp(0.5px, 0.6vw, 6px);
+  line-height: 1.25;
+  word-break: break-word;
+  text-wrap: balance;
+
+  /* ligera sombra para contraste sobre fondos animados */
+  text-shadow: 0 1px 2px rgba(0,0,0,.45);
+}
+
+/* Desktop: controla tamaño y espaciado */
+@media (min-width: 1024px){
+  .titulo {
+    font-size: 28px;
+    top: 24px;
+    letter-spacing: 4px;
+  }
+}
+
+/* === Animación palabra por palabra === */
+.titulo .word {
+  display: inline-block;          /* necesario para translate */
   opacity: 0;
-  animation: fadeIn 3s ease-in-out forwards;
-  text-align: center; /* mantiene el texto centrado dentro del ancho */
+  transform: translateY(12px);
+  animation: wordFadeUp 1.5s ease forwards; /* duración lenta por palabra */
+  will-change: opacity, transform;
+}
+
+/* Espacios conservados para no “pegar” palabras */
+.titulo .space { display: inline; }
+
+/* === Destello final para la marca === */
+.brand-highlight {
+  display: inline-block;
+  opacity: 0;                     /* se revelará al final vía delay calculado en JS */
+  filter: brightness(1);
+  animation: brandReveal 1.8s ease forwards;
+  will-change: opacity, filter, transform;
+}
+
+/* Keyframes */
+@keyframes wordFadeUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes brandReveal {
+  0%   { opacity: 0; filter: brightness(1);    transform: scale(1); }
+  50%  { opacity: 1; filter: brightness(1.8);  transform: scale(1.02); } /* pequeño “pop” */
+  100% { opacity: 1; filter: brightness(1);    transform: scale(1); }
+}
+
+/* Accesibilidad: menos movimiento */
+@media (prefers-reduced-motion: reduce){
+  .titulo .word,
+  .brand-highlight {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+  }
 }
 
 @keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
   to {
     opacity: 1;
   }
