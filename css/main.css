@@ -40,7 +40,9 @@ body {
 
 }
 .titulo {
-  margin-bottom: 180px;
+  top: 20px; /* 👈 controla la distancia desde arriba */
+  width: 100%; /* ocupa todo el ancho */
+  
   font-family: "Arial Narrow", Arial, sans-serif;
   color: yellow;
   position: absolute;
@@ -48,8 +50,9 @@ body {
   letter-spacing: 10px;
   opacity: 0;
   animation: fadeIn 3s ease-in-out forwards;
-  text-align: center;
+  text-align: center; /* mantiene el texto centrado dentro del ancho */
 }
+
 @keyframes fadeIn {
   from {
     opacity: 0;
